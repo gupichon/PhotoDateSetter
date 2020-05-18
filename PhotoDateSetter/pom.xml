@@ -118,6 +118,25 @@
 									<directory>${project.basedir}</directory>
 									<includes>
 										<include>launch.bat</include>
+										<include>exifTool.exe</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-exiftool-folder</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/exiftool_files</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/exiftool_files</directory>
+									<includes>
+										<include>**/*</include>
 									</includes>
 								</resource>
 							</resources>

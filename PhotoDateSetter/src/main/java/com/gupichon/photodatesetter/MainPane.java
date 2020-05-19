@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class MainPane extends VBox {
 	private DatePicker datePicker;
@@ -22,7 +23,7 @@ public class MainPane extends VBox {
 	private ProgressBar progressBar;
 	private ExiftoolService service;
 
-	public MainPane() {
+	public MainPane(Stage primaryStage) {
 		service = new ExiftoolService();
 		setSpacing(10);
 		Label dirLbl = new Label("Répertoire");
@@ -39,7 +40,7 @@ public class MainPane extends VBox {
 			public void handle(ActionEvent event) {
 				DirectoryChooser dirChooser = new DirectoryChooser();
 				dirChooser.setTitle("Choisir un dossier d'images");
-				File dir = dirChooser.showDialog(null);
+				File dir = dirChooser.showDialog(primaryStage);
 				if (dir != null && dir.isDirectory()) {
 					dirTxtFld.setText(dir.getAbsolutePath());
 				}

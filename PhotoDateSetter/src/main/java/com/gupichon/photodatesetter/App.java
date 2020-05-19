@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -23,10 +22,8 @@ public class App extends Application {
 			alert.showAndWait();
 			Platform.exit();
 		}
-		BorderPane root = new BorderPane();
-		MainPane mp = new MainPane();
-		root.setCenter(mp);
-		scene = new Scene(root);
+		MainPane mp = new MainPane(primaryStage);
+		scene = new Scene(mp);
 		primaryStage.setHeight(300);
 		primaryStage.setWidth(500);
 		primaryStage.setResizable(false);

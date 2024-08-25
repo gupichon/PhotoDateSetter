@@ -1,16 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>gupichon</groupId>
 	<artifactId>PhotoDateSetter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PhotoDateSetter</name>
+
 	<properties>
-		<JavaVersion>14</JavaVersion>
+		<JavaVersion>22</JavaVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>${JavaVersion}</maven.compiler.source>
 		<maven.compiler.target>${JavaVersion}</maven.compiler.target>
+		<main.class>com.gupichon.photodatesetter.App</main.class>
+		<module.name>PhotoDateSetter</module.name>
 	</properties>
 
 	<dependencies>
@@ -29,62 +33,40 @@
 			<artifactId>javafx-base</artifactId>
 			<version>${JavaVersion}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-archetype-simple</artifactId>
-			<version>0.0.5</version>
-		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
+			<!-- Compiler Plugin -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<source>${JavaVersion}</source>
-							<target>${JavaVersion}</target>
-						</configuration>
-					</execution>
-					<execution>
-						<id>default-testCompile</id>
-						<phase>test-compile</phase>
-						<goals>
-							<goal>testCompile</goal>
-						</goals>
-						<configuration>
-							<source>${JavaVersion}</source>
-							<target>${JavaVersion}</target>
-						</configuration>
-					</execution>
-				</executions>
 				<configuration>
 					<source>${JavaVersion}</source>
 					<target>${JavaVersion}</target>
 				</configuration>
 			</plugin>
+
+			<!-- JavaFX Plugin -->
 			<plugin>
 				<groupId>org.openjfx</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>0.0.4</version>
+				<version>0.0.8</version>
 				<configuration>
 					<source>${JavaVersion}</source>
 					<target>${JavaVersion}</target>
-					<mainClass>PhotoDateSetter/com.gupichon.photodatesetter.App</mainClass>
+					<mainClass>${main.class}</mainClass>
 				</configuration>
 			</plugin>
+
+			<!-- Assembly Plugin for packaging with dependencies -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.3.0</version>
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.gupichon.photodatesetter.App</mainClass>
+							<mainClass>${main.class}</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -101,6 +83,8 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Resources Plugin for copying resources -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.1.0</version>
@@ -144,6 +128,43 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- JLink Plugin for custom JRE creation -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jlink-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<addModules>
+						<!-- Specify modules needed by your application except JavaFX modules -->
+						<module>java.base</module>
+						<!-- Add other required modules here -->
+					</addModules>
+					<outputDirectory>${project.build.directory}/jlink</outputDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>jlink</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jlink-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>jlink</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
